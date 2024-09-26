@@ -2,6 +2,7 @@
 
 BRIDGE=virbr0
 
+set -x
 
 do_brctl() {
     brctl "$@"
