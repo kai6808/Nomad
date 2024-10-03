@@ -25,9 +25,15 @@ function func_main() {
     func_cache_flush
     sleep 2
 
-	${TIME} -f "execution time %e (s)" \
-    ${BENCH_RUN}  2>&1 | tee ${LOG_DIR}/output.log  
+    # Start numastat in the background to monitor memory access
+    numastat -m 1 > ${LOG_DIR}/numastat.log & 
+    NUMASTAT_PID=$!
 
+	${TIME} -f "execution time %e (s)\nMax Memory (MB): %M\nAvg Resident Set Size (MB): %K" \
+    ${BENCH_RUN}  2>&1 | tee ${LOG_DIR}/output_with_mem.log  
+
+    # Kill numastat after the benchmark finishes
+    kill ${NUMASTAT_PID}
 }
 
 ################################ Main ##################################

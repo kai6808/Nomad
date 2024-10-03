@@ -1,4 +1,10 @@
 #!/bin/bash
+
+# Enable debug mode and error checking
+set -u   # Treat unset variables as errors
+set -e   # Exit immediately if a command fails
+set -x   # Print each command before executing it
+
 # execute this script from project root directory
 source global_dirs.sh
 
